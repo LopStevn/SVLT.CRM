@@ -22,9 +22,9 @@ namespace SVLT.DTOs.PersonDTOs
         public int Age { get; set; }
 
         [Display(Name = "Estatura")]
-        public double Height { get; set; }
+        public decimal Height { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
-        public DateOnly Birthdate { get; set; }
+        public DateDTO Birthdate { get; set; }
     }
 }

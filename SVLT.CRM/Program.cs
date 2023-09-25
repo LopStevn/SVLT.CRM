@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using SVLT.CRM.API.Endpoints;
 using SVLT.CRM.API.Models.DAL;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

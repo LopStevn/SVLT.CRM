@@ -10,8 +10,8 @@
 
         public int Age { get; set; }
 
-        public double Height { get; set; }
+        public decimal Height { get; set; }
 
-        public DateOnly Birthdate { get; set; }
+        public DateTime Birthdate { get; set; }
     }
 }

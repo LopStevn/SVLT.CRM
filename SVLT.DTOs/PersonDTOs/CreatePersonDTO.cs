@@ -28,10 +28,10 @@ namespace SVLT.DTOs.PersonDTOs
         [Display(Name = "Estatura")]
         [Required(ErrorMessage = "El campo estatura es obligatorio.")]
         [MaxLength(3, ErrorMessage = "El campo estatura no puede tener más de 3 caracteres.")]
-        public double Height { get; set; }
+        public decimal Height { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
         [Required(ErrorMessage = "El campo fecha es obligatorio.")]
-        public DateOnly Birthdate { get; set; }
+        public DateDTO  Birthdate { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using SVLT.CRM.API.Models.DAL;
 using SVLT.CRM.API.Models.EN;
 using SVLT.DTOs.PersonDTOs;
+using SVLT.DTOs;
+using System.Globalization;
+using System.Text.Json;
 
 namespace SVLT.CRM.API.Endpoints
 {
@@ -62,7 +65,7 @@ namespace SVLT.CRM.API.Endpoints
                     LastName = person.LastName,
                     Age = person.Age,
                     Height = person.Height,
-                    Birthdate = person.Birthdate
+                    Birthdate = person.Birthdate.GetDateDTO()
                 };
 
                 if (personResult.Id > 0)
@@ -73,13 +76,15 @@ namespace SVLT.CRM.API.Endpoints
 
             app.MapPost("/person", async (CreatePersonDTO personDTO, PersonDAL personDAL) =>
             {
+                 
+
                 var person = new Person
                 {
                     Name = personDTO.Name,
                     LastName = personDTO.LastName,
                     Age = personDTO.Age,
                     Height = personDTO.Height,
-                    Birthdate = personDTO.Birthdate.ToString()
+                    Birthdate =personDTO.Birthdate.ToDateTime()
                 };
 
                 int result = await personDAL.Create(person);
