@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
+using SVLT.CRM.API.Endpoints;
+using SVLT.CRM.API.Models.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<SVLTContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Conn"))
+);
+
+builder.Services.AddScoped<PersonDAL>();
+
 var app = builder.Build();
+
+app.AddPersonEndpoints();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

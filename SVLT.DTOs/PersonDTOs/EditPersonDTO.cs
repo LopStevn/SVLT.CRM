@@ -15,7 +15,7 @@ namespace SVLT.DTOs.PersonDTOs
             Id = getIdResultPersonDTO.Id;
             Name = getIdResultPersonDTO.Name;
             LastName = getIdResultPersonDTO.LastName;
-            Age = getIdResultPersonDTO.Age.ToString();
+            Age = getIdResultPersonDTO.Age;
             Height = getIdResultPersonDTO.Height;
             Birthdate = getIdResultPersonDTO.Birthdate;
         }
@@ -42,7 +42,7 @@ namespace SVLT.DTOs.PersonDTOs
         [Display(Name = "Edad")]
         [Required(ErrorMessage = "El campo Edad es obligatorio.")]
         [MaxLength(2, ErrorMessage = "El campo Edad no puede tener más de 2 caracteres.")]
-        public string? Age { get; set; }
+        public int Age { get; set; }
 
         [Display(Name = "Estatura")]
         [Required(ErrorMessage = "El campo estatura es obligatorio.")]
