@@ -1,0 +1,8 @@
+﻿@model SearchResultPersonDTO
+
+@{
+    ViewData["Title"] = "Index";
+    var modelSearchQuery = ViewBag.SearchQuery as SearchQueryPersonDTO;
+}
+<partial name="SearchQuery" model="modelSearchQuery" />
+<partial name="SearchResult" model="Model.Data" />
