@@ -1,7 +1,7 @@
 ﻿using SVLT.CRM.API.Models.DAL;
 using SVLT.CRM.API.Models.EN;
-using SVLT.DTOs.PersonDTOs;
 using SVLT.DTOs;
+using SVLT.DTOs.PersonDTOs;
 using System.Globalization;
 using System.Text.Json;
 
@@ -84,7 +84,8 @@ namespace SVLT.CRM.API.Endpoints
                     LastName = personDTO.LastName,
                     Age = personDTO.Age,
                     Height = personDTO.Height,
-                    Birthdate =personDTO.Birthdate.ToDateTime()
+                    Birthdate = personDTO.Birthdate_temp
+                    //Birthdate =personDTO.Birthdate.ToDateTime()
                 };
 
                 int result = await personDAL.Create(person);

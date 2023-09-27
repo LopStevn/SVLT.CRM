@@ -1,0 +1,68 @@
+﻿@page "/person-details/{Id:int}"
+
+@using SVLT.DTOs.PersonDTOs;
+@using Microsoft.AspNetCore.Components.Forms;
+@using SVLT.AppWeb.Blazor.Data;
+
+
+<h3>Ver Personas</h3>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <label for="Name">Nombre:</label>
+            <input type="text" class="form-control" disabled @bind="person.Name" />
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label for="LastName">Apellido:</label>
+            <input type="text" class="form-control" disabled @bind="person.LastName" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Age">Direccion:</label>
+                <textarea disabled class="form-control" @bind="person.Age"></textarea>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Height">Estatura:</label>
+                <textarea disabled class="form-control" @bind="person.Height"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="Birthday">Estatura:</label>
+                <textarea disabled class="form-control" @bind="person.Birthdate"></textarea>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <NavLink href="/person-list" class="btn btn-primary">Ir a buscar personas</NavLink>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    PersonService personService { get; set; }
+
+    GetIdResultPersonDTO person = new GetIdResultPersonDTO();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        person = await personService.GetById(Id);
+    }
+}

@@ -1,0 +1,201 @@
+﻿@page "/person-list"
+@using SVLT.DTOs.PersonDTOs;
+@using System.Text.Json;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Forms;
+@using SVLT.AppWeb.Blazor.Data;
+
+<h3>Buscar Personas</h3>
+<EditForm Model="searchQuery" OnInvalidSubmit="SubmitSearch">
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="Name">Nombre:</label>
+                <InputText class="form-control" @bind-Value="searchQuery.Name_Like"></InputText>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="LastName">Apellido:</label>
+                <InputText class="form-control" @bind-Value="searchQuery.LastName_Like"></InputText>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <label for="Take">CantReg X Pagina</label>
+                <select class="form-control" @bind="searchQuery.Take">
+                    @for (var i = 10; i < 1000; i += 10)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <NavLink href="/create-person" class="btn btn-secondary">Ir a Crear</NavLink>
+    <br />
+</EditForm>
+<br />
+<h3>Lista de Personas</h3>
+<div class="row" style="overflow:auto !important; max-width:600px">
+    <nav aria-label="Page Navigation Example">
+        <ul class="pagination">
+            <li class="page-item">
+                <NavLink class="page-link" @onclick="async () => PaginationSearch(skipAnte)">Anterior</NavLink>
+            </li>
+            @foreach (var item in paginations)
+            {
+                if (item.Skip != searchQuery.Skip)
+                {
+                    <li class="page-item">
+                        <NavLink class="page-link" @onclick="async () => await PaginationSearch(item.Skip)">@item.NumPage</NavLink>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item active">
+                        <NavLink class="page-link active" @onclick="async () => await PaginationSearch(item.Skip)">@item.NumPage</NavLink>
+                    </li>
+                }
+            }
+            <NavLink class="page-link" @onclick="async () => await PaginationSearch(skipSi)">Siguiente</NavLink>
+        </ul>
+    </nav>
+</div>
+<div class="row-cols-6">
+    <span>Total Registros: @searchResult.CounRow</span>
+</div>
+@if (searchResult != null && searchResult.Data != null && searchResult.Data.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Estatura</th>
+                <th>Fecha de Nac</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in searchResult.Data)
+            {
+                <tr>
+                    <td>@person.Name</td>
+                    <td>@person.LastName</td>
+                    <td>@person.Age</td>
+                    <td>@person.Height</td>
+                    <td>@person.Birthdate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <button class="btn btn-dark" @onclick="() => GoEdit(person.Id)">Editar</button>
+                        <button class="btn btn-info" @onclick="() => GoDetails(person.Id)">Ver</button>
+                        <button class="btn btn-danger" @onclick="() => GoDelete(person.Id)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    [Inject]
+    PersonService personService { get; set; }
+    [Inject]
+    NavigationManager navigation { get; set; }
+
+    SearchResultPersonDTO searchResult = new SearchResultPersonDTO();
+    SearchQueryPersonDTO searchQuery = new SearchQueryPersonDTO { Take = 10 };
+    List<Pagination> paginations = new List<Pagination>();
+    int skipAnte = 0;
+    int skipSi = 0;
+
+    private async Task Search()
+    {
+        searchResult = await personService.Search(searchQuery);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        searchQuery.SendRowCount = 2;
+        searchQuery.Skip = 0;
+
+        await Search();
+
+        UpdatePagination();
+    }
+
+    private async Task SubmitSearch()
+    {
+        searchQuery.SendRowCount = 2;
+        searchQuery.Skip = 0;
+
+        await Search();
+
+        UpdatePagination();
+    }
+
+    private async Task PaginationSearch(int skip)
+    {
+        int countRowTemp = searchResult.CounRow;
+
+        searchQuery.SendRowCount = 1;
+        searchQuery.Skip = skip;
+
+        await Search();
+
+        searchResult.CounRow = countRowTemp;
+
+        UpdatePagination();
+    }
+
+    private void GoEdit(int personId)
+    {
+        navigation.NavigateTo($"/edit-person/{personId}");
+    }
+
+    private void GoDetails(int personId)
+    {
+        navigation.NavigateTo($"/person-details/{personId}");
+    }
+
+    private void GoDelete(int personId)
+    {
+        navigation.NavigateTo($"/delete-person/{personId}");
+    }
+
+    private void UpdatePagination()
+    {
+        paginations = new List<Pagination>();
+
+        int totalPages = (int)Math.Ceiling((double)searchResult.CounRow / searchQuery.Take);
+
+        skipAnte = searchQuery.Skip > 0 ? searchQuery.Skip - searchQuery.Take : 0;
+        int skipMax = 0;
+
+        for (var i = 0; i < totalPages; i++)
+        {
+            var pagination = new Pagination()
+                {
+                    Skip = i * searchQuery.Take,
+                    NumPage = i + 1
+                };
+
+            paginations.Add(pagination);
+            skipMax = pagination.Skip;
+        }
+
+        skipSi = searchQuery.Skip + searchQuery.Take;
+        skipSi = skipSi > skipMax ? skipSi - searchQuery.Take : skipSi;
+    }
+
+    class Pagination
+    {
+        public int NumPage { get; set; }
+        public int Skip { get; set; }
+    }
+}
+

@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using SVLT.DTOs.PersonDTOs;
 using Microsoft.AspNetCore.Mvc;
-using SVLT.DTOs.PersonDTOs;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SVLT.AppWeb.MVC.Controllers
 {
     public class PersonController : Controller
     {
-        private readonly HttpClient _httpClientCRMAPI;
+        private readonly HttpClient _httpClient;
 
-        // GET: CustomerController
-        public PersonController(IHttpClientFactory httpClientFactory)
+        public PersonController(IHttpClientFactory _httpClientFactory)
         {
-            _httpClientCRMAPI = httpClientFactory.CreateClient("CRMAPI");
+            _httpClient = _httpClientFactory.CreateClient("CRM");
         }
 
         public async Task<IActionResult> Index(SearchQueryPersonDTO searchQuerypersonDTO, int CountRow = 0)
@@ -23,7 +22,7 @@ namespace SVLT.AppWeb.MVC.Controllers
 
             var result = new SearchResultPersonDTO();
 
-            var response = await _httpClientCRMAPI.PostAsJsonAsync("/person/search", searchQuerypersonDTO);
+            var response = await _httpClient.PostAsJsonAsync("/person/search", searchQuerypersonDTO);
 
             if (response.IsSuccessStatusCode)
                 result = await response.Content.ReadFromJsonAsync<SearchResultPersonDTO>();
@@ -44,7 +43,7 @@ namespace SVLT.AppWeb.MVC.Controllers
         {
             var result = new GetIdResultPersonDTO();
 
-            var response = await _httpClientCRMAPI.GetAsync("/person/" + id);
+            var response = await _httpClient.GetAsync("/person/" + id);
 
             if (response.IsSuccessStatusCode)
                 result = await response.Content.ReadFromJsonAsync<GetIdResultPersonDTO>();
@@ -66,7 +65,7 @@ namespace SVLT.AppWeb.MVC.Controllers
 
             try
             {
-                var response = await _httpClientCRMAPI.PostAsJsonAsync("/customer", createPersonDTO);
+                var response = await _httpClient.PostAsJsonAsync("/person", createPersonDTO);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -87,7 +86,7 @@ namespace SVLT.AppWeb.MVC.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var result = new GetIdResultPersonDTO();
-            var response = await _httpClientCRMAPI.GetAsync("/customer/" + id);
+            var response = await _httpClient.GetAsync("/person/" + id);
 
             if (response.IsSuccessStatusCode)
                 result = await response.Content.ReadFromJsonAsync<GetIdResultPersonDTO>();
@@ -103,7 +102,7 @@ namespace SVLT.AppWeb.MVC.Controllers
         {
             try
             {
-                var response = await _httpClientCRMAPI.PutAsJsonAsync("/person", editPersonDTO);
+                var response = await _httpClient.PutAsJsonAsync("/person", editPersonDTO);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));
@@ -124,7 +123,7 @@ namespace SVLT.AppWeb.MVC.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var result = new GetIdResultPersonDTO();
-            var response = await _httpClientCRMAPI.GetAsync("/person/" + id);
+            var response = await _httpClient.GetAsync("/person/" + id);
 
             if (response.IsSuccessStatusCode)
                 result = await response.Content.ReadFromJsonAsync<GetIdResultPersonDTO>();
@@ -139,7 +138,7 @@ namespace SVLT.AppWeb.MVC.Controllers
         {
             try
             {
-                var response = await _httpClientCRMAPI.DeleteAsync("person/" + id);
+                var response = await _httpClient.DeleteAsync("person/" + id);
 
                 if (response.IsSuccessStatusCode)
                 {

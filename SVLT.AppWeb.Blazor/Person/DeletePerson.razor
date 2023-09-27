@@ -1,0 +1,95 @@
+﻿@page "/delete-person/{Id:int}"
+
+@using SVLT.DTOs.PersonDTOs;
+@using Microsoft.AspNetCore.Components.Forms;
+@using SVLT.AppWeb.Blazor.Data;
+
+
+<h3>Eliminar Persona</h3>
+@if (isSuccess == false && isError == false)
+{
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Name">Nombre:</label>
+                <input type="text" class="form-control" disabled @bind="person.Name" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="LastName">Apellido:</label>
+                <input type="text" class="form-control" disabled @bind="person.LastName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Age">Direccion:</label>
+                    <input type="number" class="form-control" disabled @bind="person.Age" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Height">Estatura:</label>
+                    <input type="number" class="form-control" disabled @bind="person.Height" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="Birthday">Estatura:</label>
+                    <input type="number" class="form-control" disabled @bind="person.Birthdate" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-primary" @onclick="async () => await Delete()">Eliminar</button>
+            <br>
+            <NavLink href="/person-list" class="btn btn-secondary">Cancelar</NavLink>
+        </div>
+    </div>
+}
+else if (isSuccess)
+{
+    <p class="alert alert-success">El cliente se elimino con exito.</p>
+    <NavLink href="/person-list" class="btn btn-primary">Aceptar</NavLink>
+}
+else if (isError)
+{
+    <p class="alert alert-error">Sucedio un error al intentar eliminar</p>
+    <NavLink herf="/person-list" class="btn btn-primary">Aceptar</NavLink>
+}
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    PersonService personService { get; set; }
+
+    GetIdResultPersonDTO person = new GetIdResultPersonDTO();
+
+    bool isSuccess = false;
+    bool isError = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        person = await personService.GetById(Id);
+    }
+
+    private async Task Delete()
+    {
+        int result = await personService.Delete(person.Id);
+
+        if (result != 0)
+            isSuccess = true;
+        else
+            isError = true;
+    }
+}

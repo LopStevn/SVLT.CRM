@@ -41,12 +41,12 @@ namespace SVLT.DTOs.PersonDTOs
 
         [Display(Name = "Edad")]
         [Required(ErrorMessage = "El campo Edad es obligatorio.")]
-        [MaxLength(2, ErrorMessage = "El campo Edad no puede tener más de 2 caracteres.")]
+        [Range(0, 150, ErrorMessage = "La edad debe estar entre 0 y 150.")]
         public int Age { get; set; }
 
         [Display(Name = "Estatura")]
         [Required(ErrorMessage = "El campo estatura es obligatorio.")]
-        [MaxLength(3, ErrorMessage = "El campo estatura no puede tener más de 3 caracteres.")]
+        [Range(0.50, 3.00, ErrorMessage = "La estatura no debe ser mayor a 3m")]
         public decimal Height { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]

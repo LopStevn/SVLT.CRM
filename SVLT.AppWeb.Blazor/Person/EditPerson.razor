@@ -1,0 +1,103 @@
+﻿@page "/edit-person/{Id:int}"
+
+@using SVLT.DTOs.PersonDTOs;
+@using Microsoft.AspNetCore.Components.Forms;
+@using System.ComponentModel.DataAnnotations;
+@using SVLT.AppWeb.Blazor.Data;
+
+@if (isSuccess == false && isError == false)
+{
+    <h3>Modificar Personas</h3>
+
+    <EditForm Model="person" OnValidSubmit="Edit">
+        <DataAnnotationsValidator />
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Name">Nombre:</label>
+                    <InputText class="form-control" @bind-Value="person.Name" />
+                    <ValidationMessage For="() => person.Name" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="LastName">Apellido:</label>
+                    <InputText class="form-control" @bind-Value="person.LastName" />
+                    <ValidationMessage For="() => person.LastName" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Age">Edad:</label>
+                        <InputNumber class="form-control" id="Age" @bind-Value="person.Age" />
+                        <ValidationMessage For="() => person.Age" />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Height">Estatura:</label>
+                        <InputNumber class="form-control" id="Height" @bind-Value="person.Height" />
+                        <ValidationMessage For="() => person.Height" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="Birthday">Fecha de nacimiento:</label>
+                    <InputDate class="form-control" id="Birthday" @bind-Value="person.Birthdate" />
+                    <ValidationMessage For="() => person.Birthdate" />
+                </div>
+            </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Modificar</button>
+                <NavLink href="/person-list" class="btn btn-secondary">Cancelar</NavLink>
+            </div>
+        </div>
+    </EditForm>
+}
+else if (isSuccess)
+{
+    person = new EditPersonDTO();
+    isError = false;
+    <p class="alert alert-success">Persona se modifico con éxito.</p>
+    <NavLink href="/person-list" class="btn btn-primary">Aceptar</NavLink>
+}
+else if (isError)
+{
+    <p class="alert alert-error">Sucedio un error al intentar modificar el registo. O no se ha realizo niguna modificacion</p>
+    <NavLink href="/person-list" class="btn btn-primary">Aceptar</NavLink>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    PersonService personService { get; set; }
+
+    EditPersonDTO person = new EditPersonDTO();
+
+    bool isSuccess = false;
+    bool isError = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var personDetail = await personService.GetById(Id);
+        person = new EditPersonDTO(personDetail);
+    }
+
+    private async Task Edit()
+    {
+        int result = await personService.Edit(person);
+
+        if (result != 0)
+            isSuccess = true;
+        else
+            isError = true;
+    }
+}
+

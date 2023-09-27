@@ -1,20 +1,18 @@
-﻿@model CreatePersonDTO
+﻿@model SVLT.DTOs.PersonDTOs.GetIdResultPersonDTO
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Crear</h1>
+<h1>Detalles de Persona</h1>
 
-<h4>Persona</h4>
-<hr />
-<form asp-action="Create">
+<form asp-action="Details">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" disabled class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
@@ -22,7 +20,7 @@
     <div class="col-4">
         <div class="form-group">
             <label asp-for="LastName" class="control-label"></label>
-            <input asp-for="LastName" class="form-control" />
+            <input asp-for="LastName" disabled class="form-control" />
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
     </div>
@@ -30,14 +28,14 @@
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
+                <input asp-for="Age" disabled class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="Height" class="control-label"></label>
-                <input asp-for="Height" class="form-control" />
+                <input asp-for="Height" disabled class="form-control" />
                 <span asp-validation-for="Height" class="text-danger"></span>
             </div>
         </div>
@@ -46,38 +44,26 @@
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="Birthdate" class="control-label"></label>
-                <input asp-for="Birthdate.Year" class="form-control" type="number" placeholder="Año" />
+                <input asp-for="Birthdate.Year" disabled class="form-control" type="number" placeholder="Año" />
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
             </div>
         </div>
-       <div class="col-4">
-            <label asp-for="Birthdate" class="control-label"></label>
-            <input asp-for="Birthdate.Month" class="form-control" type="number" placeholder="Mes" />
+        <div class="col-4">
+            <label asp-for="Birthdate" class="control-label">Mes</label>
+            <input asp-for="Birthdate.Month" disabled class="form-control" type="number" placeholder="Mes" />
             <span asp-validation-for="Birthdate" class="text-danger"></span>
-       </div>
-       <div class="col-4">
-           <label asp-for="Birthdate" class="control-label"></label>
-            <input asp-for="Birthdate.Day" class="form-control" type="number" placeholder="Día" />
+        </div>
+        <div class="col-4">
+            <label asp-for="Birthdate" class="control-label">Dia</label>
+            <input asp-for="Birthdate.Day" disabled class="form-control" type="number" placeholder="Día" />
             <span asp-validation-for="Birthdate" class="text-danger"></span>
-       </div>
-    </div>
-    <br /
-    <div class="row">
-        <div class="col-6">
-        <div class="form-group">
-            <input type="submit" value="Crear" class="btn btn-primary" />
-        </div>
-        <div class="col-6">
-            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-        </div>
         </div>
     </div>
-
 </form>
+<br />
+<div class="row-cols-6">
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-secondary">Ir a Personas</a>
+    </div>
+</div>
 
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

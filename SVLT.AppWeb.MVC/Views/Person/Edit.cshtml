@@ -1,15 +1,16 @@
-﻿@model CreatePersonDTO
+﻿@model SVLT.DTOs.PersonDTOs.EditPersonDTO
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Crear</h1>
+<h1>Editar</h1>
 
 <h4>Persona</h4>
 <hr />
-<form asp-action="Create">
+<form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="Id" type="hidden" />
     <div class="row">
         <div class="col-4">
             <div class="form-group">
@@ -46,35 +47,23 @@
         <div class="col-4">
             <div class="form-group">
                 <label asp-for="Birthdate" class="control-label"></label>
-                <input asp-for="Birthdate.Year" class="form-control" type="number" placeholder="Año" />
+                <input asp-for="Birthdate" class="form-control" />
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
             </div>
         </div>
-       <div class="col-4">
-            <label asp-for="Birthdate" class="control-label"></label>
-            <input asp-for="Birthdate.Month" class="form-control" type="number" placeholder="Mes" />
-            <span asp-validation-for="Birthdate" class="text-danger"></span>
-       </div>
-       <div class="col-4">
-           <label asp-for="Birthdate" class="control-label"></label>
-            <input asp-for="Birthdate.Day" class="form-control" type="number" placeholder="Día" />
-            <span asp-validation-for="Birthdate" class="text-danger"></span>
-       </div>
     </div>
-    <br /
-    <div class="row">
-        <div class="col-6">
+    <br />
+    <div class="row-cols-6">
         <div class="form-group">
-            <input type="submit" value="Crear" class="btn btn-primary" />
-        </div>
-        <div class="col-6">
+            <input type="submit" value="modificar" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
         </div>
-        </div>
     </div>
-
 </form>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
     @{
