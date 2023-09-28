@@ -25,6 +25,6 @@ namespace SVLT.DTOs.PersonDTOs
         public decimal Height { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
-        public DateDTO Birthdate { get; set; }
+        public DateTime Birthdate { get; set; }
     }
 }

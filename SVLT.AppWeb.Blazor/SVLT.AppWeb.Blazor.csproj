@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Person\CreatePerson.razor~RF3356ac6.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Syncfusion.Blazor.Calendars" Version="23.1.38" />
   </ItemGroup>
 

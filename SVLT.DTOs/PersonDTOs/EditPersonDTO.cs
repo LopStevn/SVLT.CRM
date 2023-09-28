@@ -17,7 +17,7 @@ namespace SVLT.DTOs.PersonDTOs
             LastName = getIdResultPersonDTO.LastName;
             Age = getIdResultPersonDTO.Age;
             Height = getIdResultPersonDTO.Height;
-            Birthdate = getIdResultPersonDTO.Birthdate.ToDateTime();
+            Birthdate = getIdResultPersonDTO.Birthdate;
         }
 
         public EditPersonDTO()

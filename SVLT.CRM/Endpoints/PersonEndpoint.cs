@@ -65,7 +65,7 @@ namespace SVLT.CRM.API.Endpoints
                     LastName = person.LastName,
                     Age = person.Age,
                     Height = person.Height,
-                    Birthdate = person.Birthdate.GetDateDTO()
+                    Birthdate = person.Birthdate
                 };
 
                 if (personResult.Id > 0)
@@ -84,7 +84,7 @@ namespace SVLT.CRM.API.Endpoints
                     LastName = personDTO.LastName,
                     Age = personDTO.Age,
                     Height = personDTO.Height,
-                    Birthdate = personDTO.Birthdate_temp
+                    Birthdate = personDTO.Birthdate
                     //Birthdate =personDTO.Birthdate.ToDateTime()
                 };
 

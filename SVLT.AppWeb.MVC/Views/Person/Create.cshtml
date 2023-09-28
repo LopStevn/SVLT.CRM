@@ -45,21 +45,11 @@
     <div class="row">
         <div class="col-4">
             <div class="form-group">
-                <label asp-for="Birthdate" class="control-label"></label>
-                <input asp-for="Birthdate.Year" class="form-control" type="number" placeholder="Año" />
-                <span asp-validation-for="Birthdate" class="text-danger"></span>
+                <label asp-for="Birthdate_temp" class="control-label"></label>
+                <input asp-for="Birthdate_temp" class="form-control" type="date" />
+                <span asp-validation-for="Birthdate_temp" class="text-danger"></span>
             </div>
         </div>
-       <div class="col-4">
-            <label asp-for="Birthdate" class="control-label"></label>
-            <input asp-for="Birthdate.Month" class="form-control" type="number" placeholder="Mes" />
-            <span asp-validation-for="Birthdate" class="text-danger"></span>
-       </div>
-       <div class="col-4">
-           <label asp-for="Birthdate" class="control-label"></label>
-            <input asp-for="Birthdate.Day" class="form-control" type="number" placeholder="Día" />
-            <span asp-validation-for="Birthdate" class="text-danger"></span>
-       </div>
     </div>
     <br /
     <div class="row">

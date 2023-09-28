@@ -36,7 +36,7 @@ namespace SVLT.DTOs.PersonDTOs
         //public DateDTO  Birthdate { get; set; }
 
         //private DateTime m_Birthdate_temp;
-        public DateTime Birthdate_temp { get; set; }
+        public DateTime Birthdate { get; set; }
         //public DateTime 
         //[JsonIgnore]
         //public DateTime Birthdate_temp
